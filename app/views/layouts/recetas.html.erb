@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <title>Recetas: <%= controller.action_name %></title>
+  <%= stylesheet_link_tag 'scaffold' %>
+  <%= javascript_include_tag "prototype" %>
+</head>
+<body style="margin:0px;">
+
+
+<table align="center" style="border-collapse:collapse;">
+	<tr>
+		<td>
+			<div class="cabecera">
+				<br>
+				<br>
+				<div class="titulo">
+				GestionaHogar.com
+				</div>
+				<br>
+				<br>
+				<br>
+				<div>
+					<%= link_to "Recetas de Cocina",{:controller => "recetas",:action => "index"},{:class => "link_principal"}  %>
+					<%= link_to "Tareas de Hogar",{:controller => "Unidadmedidas",:action => "index"},{:class => "link_principal"} %>
+				</div>
+			</div>
+			<%= yield  %>
+			<div class="pie_pagina">
+			</div>
+
+		</td>
+	</tr>
+</table>
+
+
+</body>
+</html>

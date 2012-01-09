@@ -1,0 +1,13 @@
+<p>
+  <b>Usuario:</b>
+  <%=h @etiqueta.usuario %>
+</p>
+
+<p>
+  <b>Nombre:</b>
+  <%=h @etiqueta.nombre %>
+</p>
+
+
+<%= link_to 'Edit', edit_etiqueta_path(@etiqueta) %> |
+<%= link_to 'Back', etiquetas_path %>

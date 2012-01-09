@@ -1,0 +1,20 @@
+<h1>Editing unidadmedidaingrediente</h1>
+
+<% form_for(@unidadmedidaingrediente) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :ingrediente %><br />
+    <%= f.text_field :ingrediente %>
+  </p>
+  <p>
+    <%= f.label :unidadmedida %><br />
+    <%= f.text_field :unidadmedida %>
+  </p>
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @unidadmedidaingrediente %> |
+<%= link_to 'Back', unidadmedidaingredientes_path %>

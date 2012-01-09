@@ -1,0 +1,20 @@
+<h1>Editing plato</h1>
+
+<% form_for(@plato) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :usuario %><br />
+    <%= f.text_field :usuario %>
+  </p>
+  <p>
+    <%= f.label :nombre %><br />
+    <%= f.text_field :nombre %>
+  </p>
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @plato %> |
+<%= link_to 'Back', platos_path %>

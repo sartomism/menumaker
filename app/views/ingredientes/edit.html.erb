@@ -1,0 +1,23 @@
+<h1>Editing ingrediente</h1>
+
+<% form_for(@ingrediente) do |f| %>
+  <%= f.error_messages %>
+	<%= f.label :nombre %><br />
+	<%= f.text_field :nombre %>
+	<%= f.select :tipo,@etiquetaings.map {|e| [e.nombre,e.id]} %>
+
+	<fieldset>
+		<legend>Posibles unidades de medida</legend>
+		<% for unidad in @unidadesmedida %>
+			<input type="checkbox" name="unidad_<%= unidad.id %>" id="unidad" value="yes" <%= medida_ingrediente(@ingrediente.id,unidad.id) %>>
+			<%= unidad.nombre %><br>
+		<% end %>
+	</fieldset>
+
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @ingrediente %> |
+<%= link_to 'Back', ingredientes_path %>

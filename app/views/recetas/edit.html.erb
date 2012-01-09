@@ -1,0 +1,126 @@
+	<%= observe_field('filtro_nombre',
+  		:frequency => 0.5,
+  		:url => {:action =>"cambiar_filtro_ingredientes"},
+		:update => "ingredientes_disponibles",
+		:with => "’filtro_nombre=’+escape($(’filrto_nombre’).value) + ‘&filtro_tipo=’ + escape($(’filtro_tipo’).value)"
+		)
+	%>
+
+
+<input id="identificador_receta" type="hidden" value="<%= @receta.id %>">
+
+<script TYPE="text/javascript">
+	function set_on(id_string) {
+		dom_object=document.getElementById(id_string);
+		dom_object.checked=true;
+	}
+	
+	function hide_element(nombre) {
+		document.getElementById(nombre).style.display='none';
+	}
+
+	function show_element(nombre) {
+		document.getElementById(nombre).style.display='block';
+	}
+
+	function toggle_element(nombre) {
+		state=document.getElementById(nombre).style.display;
+		if(state=='none') {
+			show_element(nombre);	
+		} else {
+			hide_element(nombre);			
+		}
+		
+	}
+
+	
+	function highline(n) {
+		
+		var o = new Array(5);
+		
+		o[1] = document.getElementById('RECETA_TAB');
+		o[2] = document.getElementById('INGREDIENTES_TAB');
+		o[3] = document.getElementById('PLATOS_TAB');
+		o[4] = document.getElementById('ETIQUETAS_TAB');
+		
+		for (i = 1; i <= 4; i++) {
+			if (i == n) {
+				o[i].style.top = "2px";
+				o[i].style.zIndex = 10;
+			}
+			else {
+				o[i].style.top = "0px";
+				o[i].style.zIndex = 0;
+			}
+		}
+
+	}
+
+	function onAjaxCall(argument) {
+
+
+		new Form.Element.Observer('filtro_nombre', 1, function(element, value) {
+			new Ajax.Updater('ingredientes_disponibles', '/recetas/cambiar_filtro_ingredientes', {
+				asynchronous:true, 
+				evalScripts:true, 
+				parameters: 'filtro_nombre='+escape($('filtro_nombre').value) + '&receta=' + escape($('identificador_receta').value) + '&filtro_tipo=' + escape($('filtro_tipo').value) + '&authenticity_token=' + encodeURIComponent('03bf12ce54cf9caba9173f53d73816acbb7892c1')
+			})
+		});
+
+		new Form.Element.Observer('filtro_tipo', 1, function(element, value) {
+			new Ajax.Updater('ingredientes_disponibles', '/recetas/cambiar_filtro_ingredientes', {
+				asynchronous:true, 
+				evalScripts:true, 
+				parameters: 'filtro_nombre='+escape($('filtro_nombre').value) + '&receta=' + escape($('identificador_receta').value) + '&filtro_tipo=' + escape($('filtro_tipo').value) + '&authenticity_token=' + encodeURIComponent('03bf12ce54cf9caba9173f53d73816acbb7892c1')
+			})
+		});
+
+		//alert('Function Loaded');
+	}
+
+	function toggle_readonly(nombre) {
+		element=document.getElementById(nombre);
+		if (element.readOnly == true) {
+			element.removeAttribute('readOnly');
+			element.setAttribute('class', 'readwrite_field');
+			element.focus();
+			} else {
+			element.setAttribute('readOnly');
+			element.setAttribute('class', 'readonly_field');
+			}
+		}
+
+</script> 
+
+	<br>
+	<br>
+	<table align="center">
+		<td>	
+			<%= link_to_remote "Ficha",:url => {:action => "mostrar_ficha",:receta => @receta.id},:update => "general",:html => {:class => "link_pestana"} %>
+		</td>
+		<td>
+			<%= link_to_remote "General",:url => {:action => "mostrar_receta",:receta => @receta.id},:update => "general",:html => {:class => "link_pestana"} %>
+		</td>
+		<td>
+			<%= link_to_remote "Ingredientes",:url => {:action => "cancelar_editar_ingrediente",:receta => @receta.id},:update => "general",:complete => "onAjaxCall(true)",:html => {:class => "link_pestana"} %>
+		</td>
+		<td>
+			<%= link_to_remote "Tipo de Receta",:url => {:action => "cancelar_fusionar_plato",:receta => @receta.id},:update => "general",:html => {:class => "link_pestana"} %>
+		</td>
+		<td>
+			<%= link_to_remote "Etiquetas",:url => {:action => "cancelar_fusionar_etiqueta",:receta => @receta.id},:update => "general",:html => {:class => "link_pestana"} %>
+		</td>
+	</table>
+	<br>
+	<br>
+<div class="standard_div" style="">
+	<table align="center">
+		<td>
+			<div id="general">
+				<%= render_partial(:partial => "render_ficha",:locals => {:receta => @receta, :ingredientes_incluidos => @ingredientes_incluidos}) %>	
+			</div>
+		</td>
+	</table>
+</div>
+
+

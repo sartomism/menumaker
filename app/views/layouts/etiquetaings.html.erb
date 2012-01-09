@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <title>Etiquetaings: <%= controller.action_name %></title>
+  <%= stylesheet_link_tag 'scaffold' %>
+</head>
+<body>
+
+<p style="color: green"><%= flash[:notice] %></p>
+
+<%= link_to "Recetas",:controller => "recetas",:action => "index" %>
+<%= link_to "Ingredientes",:controller => "ingredientes",:action => "index" %>
+<%= link_to "Unidades de Medida",:controller => "Unidadmedidas",:action => "index" %>
+<%= link_to "Etiquetas",:controller => "etiquetas",:action => "index" %>
+<%= link_to "Etiquetas Ingredientes",:controller => "etiquetaings",:action => "index" %>
+<%= link_to "Tipos de Plato",:controller => "platos",:action => "index" %>
+
+<%= yield  %>
+
+</body>
+</html>

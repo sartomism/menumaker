@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  etiqueta: 1
+  receta: 1
+  usuario: 1
+
+two:
+  etiqueta: 1
+  receta: 1
+  usuario: 1

@@ -1,0 +1,13 @@
+	<%= select_tag "obs_filtro_tipo",options_for_select(selection, 0) %>
+
+	<%= observe_field('obs_filtro_tipo',
+  		:frequency => 0.5,
+  		:url => {:action =>"cambiar_filtro_ingredientes"})
+	%>
+
+	
+	<div id="ingredientes_disponibles">
+		
+		Holaa
+		
+	</div>

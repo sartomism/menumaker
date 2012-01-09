@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  receta: 1
+  plato: 1
+
+two:
+  receta: 1
+  plato: 1

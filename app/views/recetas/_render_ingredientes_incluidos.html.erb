@@ -1,0 +1,33 @@
+<fieldset>
+	<% remote_form_for("ingredientes",:url => {:action => "modificar_ingredientes"},:update => "ingredientes_incluidos") do |f| %>
+		<%= f.hidden_field "receta",:value => receta.id.to_s %>
+		<table>
+			<tr>
+				<th>Ingrediente</th>
+				<th>Cantidad</th>
+				<th>Unidad</th>
+				<th>Eliminar</th>
+			</tr>
+				<% for ingrediente in ingredientes_incluidos %>
+					<% i=Unidadmedidaingrediente.find(ingrediente.ingrediente) %>
+	
+					<tr>
+						<td>
+							<%= Ingrediente.find(i.ingrediente).nombre %>
+						</td>
+						<td>
+							<%= f.text_field "cantidad_"+ingrediente.id.to_s,:value => ingrediente.cantidad,:size => 5 %>
+						</td>
+						<td>
+							<% unidades = Unidadmedidaingrediente.find(:all,:conditions => "ingrediente = "+i.ingrediente.to_s).map {|ui| [Unidadmedida.find(ui.unidadmedida).nombre,ui.unidadmedida]} %>
+							<%= f.select "unidad_"+ingrediente.id.to_s,unidades,:selected => i.unidadmedida %>
+						</td>
+						<td>
+							<%= f.check_box "eliminar_"+ingrediente.id.to_s %>
+						</td>
+					</tr>
+				<% end %>
+		</table>
+		<%= f.submit "Modificar\n Ingredientes\n" %>
+	<% end %>
+</fieldset>

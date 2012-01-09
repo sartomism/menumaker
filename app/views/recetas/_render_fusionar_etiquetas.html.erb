@@ -1,0 +1,14 @@
+<fieldset>
+	<legend>Fusionar etiqueta </legend>
+
+	<p align="right">
+	<%= link_to_remote "Cancelar",:url => {:action => "cancelar_fusionar_etiqueta",:receta => receta.id},:update => "general" %>
+	</p>
+
+	<% remote_form_for "fusionar",:url => {:action => "fusionar_etiqueta"},:update => "general" do |f| %>
+		<%= f.hidden_field "receta",:value => receta.id.to_s %>
+		<%= f.hidden_field "etiqueta",:value => mover.id.to_s %>
+		Fusionar etiquetas '<%= mover.nombre %>' con <%= f.select "fusionar_con", etiquetas.map {|e| [e.nombre,e.id] },:selected => mover.id %><br>
+		<%= f.submit "Fusionar" %>
+	<% end %> 
+</fieldset>

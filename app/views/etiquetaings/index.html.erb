@@ -1,0 +1,22 @@
+<h1>Listing etiquetaings</h1>
+
+<table>
+  <tr>
+    <th>Usuario</th>
+    <th>Nombre</th>
+  </tr>
+
+<% for etiquetaing in @etiquetaings %>
+  <tr>
+    <td><%=h etiquetaing.usuario %></td>
+    <td><%=h etiquetaing.nombre %></td>
+    <td><%= link_to 'Show', etiquetaing %></td>
+    <td><%= link_to 'Edit', edit_etiquetaing_path(etiquetaing) %></td>
+    <td><%= link_to 'Destroy', etiquetaing, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New etiquetaing', new_etiquetaing_path %>

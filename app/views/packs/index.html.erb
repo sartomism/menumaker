@@ -1,0 +1,22 @@
+<h1>Listing packs</h1>
+
+<table>
+  <tr>
+    <th>Ingrediente</th>
+    <th>Cantidad</th>
+  </tr>
+
+<% for pack in @packs %>
+  <tr>
+    <td><%=h pack.ingrediente %></td>
+    <td><%=h pack.cantidad %></td>
+    <td><%= link_to 'Show', pack %></td>
+    <td><%= link_to 'Edit', edit_pack_path(pack) %></td>
+    <td><%= link_to 'Destroy', pack, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New pack', new_pack_path %>

@@ -1,0 +1,24 @@
+<h1>Listing ingredientesrecetas</h1>
+
+<table>
+  <tr>
+    <th>Receta</th>
+    <th>Ingrediente</th>
+    <th>Cantidad</th>
+  </tr>
+
+<% for ingredientesreceta in @ingredientesrecetas %>
+  <tr>
+    <td><%=h ingredientesreceta.receta %></td>
+    <td><%=h ingredientesreceta.ingrediente %></td>
+    <td><%=h ingredientesreceta.cantidad %></td>
+    <td><%= link_to 'Show', ingredientesreceta %></td>
+    <td><%= link_to 'Edit', edit_ingredientesreceta_path(ingredientesreceta) %></td>
+    <td><%= link_to 'Destroy', ingredientesreceta, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New ingredientesreceta', new_ingredientesreceta_path %>

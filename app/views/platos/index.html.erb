@@ -1,0 +1,22 @@
+<h1>Listing platos</h1>
+
+<table>
+  <tr>
+    <th>Usuario</th>
+    <th>Nombre</th>
+  </tr>
+
+<% for plato in @platos %>
+  <tr>
+    <td><%=h plato.usuario %></td>
+    <td><%=h plato.nombre %></td>
+    <td><%= link_to 'Show', plato %></td>
+    <td><%= link_to 'Edit', edit_plato_path(plato) %></td>
+    <td><%= link_to 'Destroy', plato, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New plato', new_plato_path %>

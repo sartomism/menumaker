@@ -1,0 +1,69 @@
+<script>
+	highline(4);
+</script>
+
+
+<fieldset>
+	<legend>Etiquetas</legend>
+	<% remote_form_for "etiqueta",:url => {:action => "guardar_etiquetas"},:update => "general" do |f| %>
+		<%= f.hidden_field "receta",:value => receta.id.to_s %>
+		<table>
+			<tr>
+				<th>Incluir</th>
+				<th>Etiqueta</th>
+				<th>Información</th>
+				<th>Acciones</th>
+			</tr>
+		<% for etiqueta in etiquetas do %>
+			<tr>
+				<td>
+					<% etiquetarecetas = Etiquetareceta.find(:all,:conditions => "etiqueta = "+etiqueta.id.to_s+" and receta = "+receta.id.to_s) %>
+					<% if etiquetarecetas.count == 0 then %>
+						<%= f.check_box "select_"+etiqueta.id.to_s %>
+					<% else %>
+						<%= f.check_box "select_"+etiqueta.id.to_s,:checked => "checked" %>
+					<% end %>
+				</td>
+				<td>
+					<% action_on_click="toggle_readonly('etiqueta_nombre_"+etiqueta.id.to_s+"');" %>
+					<%= f.text_field "nombre_"+etiqueta.id.to_s,:value => etiqueta.nombre.to_s,:readonly => true,:class => "readonly_field",:onclick => action_on_click %>
+				</td>
+				<td>
+					<% cantidad = cantidad_recetas_etiqueta(etiqueta) %>
+					<%= "("+cantidad.to_s+" recetas)" %>
+				</td>
+				<td>
+					<% if cantidad == 0 %>
+						<%= link_to_remote "Borrar",:url => {:action => "borrar_etiqueta",:receta => receta.id, :etiqueta => etiqueta.id },:update => "general" %>
+					<% else %>
+						<%= link_to_remote "Fusionar",:url => {:action => "mover_etiqueta",:receta => receta.id, :etiqueta => etiqueta.id },:update => "general" %>
+					<% end %>
+				</td>
+			</tr>
+		<% end %>
+		<tr>
+			<td align="center" colspan=4>
+				<%= f.submit "Guardar\n Etiquetas" %>
+			</td>
+		</tr>
+		</table>
+		
+	<% end %>
+	<hr>
+	<table align="center">
+		<tr>
+			<td>
+				<a id="necesito_nueva_etiqueta_link" align="center" class="link_aviso" onclick="show_element('necesito_nueva_etiqueta_code');hide_element('necesito_nueva_etiqueta_link');">
+					Necesito una nueva etiqueta
+				</a>
+				<div id="necesito_nueva_etiqueta_code" style="display:none;">
+					Nueva Etiqueta:
+					<% remote_form_for "nueva_etiqueta",:url => {:action => "crear_etiqueta"},:update => "general" do |f| %>
+						<%= f.hidden_field "receta",:value => receta.id.to_s %>
+						<%= f.text_field "nombre" %>
+						<%= f.submit "Crear" %>
+					<% end %>
+				</div>
+			</td>
+	</table>
+</fieldset>

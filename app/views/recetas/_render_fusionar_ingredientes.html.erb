@@ -1,0 +1,15 @@
+<fieldset>
+	<legend>Fusionar Ingrediente </legend>
+
+	<p align="right">
+	<%= link_to_remote "Cancelar",:url => {:action => "cancelar_editar_ingrediente",:receta => receta.id},:update => "general",:complete => "onAjaxCall(true)" %>
+									
+	</p>
+
+	<% remote_form_for "fusionar",:url => {:action => "fusionar_ingrediente"},:update => "general",:complete => "onAjaxCall(true)" do |f| %>
+		<%= f.hidden_field "receta",:value => receta.id.to_s %>
+		<%= f.hidden_field "ingrediente",:value => mover.id.to_s %>
+		Fusionar ingrediente '<%= mover.nombre %>' con <%= f.select "destino",ingredientes.map {|i| [i.nombre,i.id]} %>
+		<%= f.submit "Fusionar" %>
+	<% end %> 
+</fieldset>

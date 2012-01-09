@@ -1,0 +1,13 @@
+<p>
+  <b>Nombre:</b>
+  <%=h @ingrediente.nombre %>
+</p>
+
+<p>
+  <b>Unidadmedia:</b>
+  <%=h @ingrediente.unidadmedia %>
+</p>
+
+
+<%= link_to 'Edit', edit_ingrediente_path(@ingrediente) %> |
+<%= link_to 'Back', ingredientes_path %>

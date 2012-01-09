@@ -1,0 +1,22 @@
+<h1>Listing unidadmedidaingredientes</h1>
+
+<table>
+  <tr>
+    <th>Ingrediente</th>
+    <th>Unidadmedida</th>
+  </tr>
+
+<% for unidadmedidaingrediente in @unidadmedidaingredientes %>
+  <tr>
+    <td><%=h unidadmedidaingrediente.ingrediente %></td>
+    <td><%=h unidadmedidaingrediente.unidadmedida %></td>
+    <td><%= link_to 'Show', unidadmedidaingrediente %></td>
+    <td><%= link_to 'Edit', edit_unidadmedidaingrediente_path(unidadmedidaingrediente) %></td>
+    <td><%= link_to 'Destroy', unidadmedidaingrediente, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New unidadmedidaingrediente', new_unidadmedidaingrediente_path %>

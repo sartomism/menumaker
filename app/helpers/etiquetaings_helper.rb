@@ -1,0 +1,2 @@
+module EtiquetaingsHelper
+end

@@ -1,0 +1,20 @@
+<h1>Editing etiquetaing</h1>
+
+<% form_for(@etiquetaing) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :usuario %><br />
+    <%= f.text_field :usuario %>
+  </p>
+  <p>
+    <%= f.label :nombre %><br />
+    <%= f.text_field :nombre %>
+  </p>
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @etiquetaing %> |
+<%= link_to 'Back', etiquetaings_path %>

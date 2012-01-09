@@ -1,0 +1,109 @@
+<fieldset>
+	<legend>Ingrediente</legend>
+
+	<p align="right">
+	<%= link_to_remote "Cancelar",:url => {:action => "cancelar_editar_ingrediente",:receta => receta.id},:update => "general",:complete => "onAjaxCall(true)" %>
+	</p>
+
+	<% remote_form_for "ingrediente",:url => {:action => "update_ingrediente"},:update => "general",:complete => "onAjaxCall(true)" do |f| %>
+		<%= f.hidden_field "receta",:value => receta.id.to_s %>
+		<%= f.hidden_field "id",:value => editar.id %>
+		<%= f.text_field "nombre",:value => editar.nombre %>
+		<%= f.select "tipo",etiquetaings.map {|e| [e.nombre,e.id]},:selected => editar.tipo %>
+		<br>
+		<br>
+		<fieldset>
+			<legend>Unidades</legend>
+			<table>
+				<tr>
+					<th>Usar</th>
+					<th>Unidad</th>
+					<th>Ud + Ingrediente</th>
+					<th>Unidad</th>
+					<th>Acciones</th>
+				</tr>
+					<% for unidad in unidadesmedida do %>
+						<tr>
+							<% usado = uso_medida_ingrediente(editar,unidad) %>
+							<% usado2 = uso_medida(unidad) %>
+							<td>
+								<% if medida_ingrediente(editar,unidad)=="checked" %>
+									<% if usado.to_i > 0 %>
+										<%= f.check_box "onlyview"+unidad.id.to_s,:checked => "checked",:disabled => "disabled" %>
+										<%= f.hidden_field "select_"+unidad.id.to_s,:value => 1 %>
+									<% else %>
+										<%= f.check_box "select_"+unidad.id.to_s,:checked => "checked" %>
+									<% end %>
+								<% else %>
+									<%= f.check_box "select_"+unidad.id.to_s %>
+								<% end %>
+							</td>
+							<td>
+								<% action_on_click="toggle_readonly('ingrediente_nombre_"+unidad.id.to_s+"');" %>
+								<%= f.text_field "nombre_"+unidad.id.to_s,:value => unidad.nombre.to_s,:readonly => true,:class => "readonly_field",:onclick => action_on_click,:size => "10" %>
+							</td>
+							<td>
+								(Usado <%= usado.to_s %> veces)
+							</td>
+							<td>
+								(Usada <%= usado2.to_s %> veces)
+							</td>
+							<td>
+								<% if usado2 == 0 %>
+									<%= link_to_remote "Borrar Unidad",:url => {:action => "borrar_unidad",:receta => receta.id, :unidad => unidad.id, :editar => editar },:update => "general" %>
+								<% end %>
+							</td>
+						</tr>
+					<% end %>
+					<tr>
+						<td align="center" colspan=5>
+							<%= f.submit "Guardar" %>
+						</td>
+					</tr>
+				</table>
+			</fieldset>				
+	<% end %>
+	<hr>
+	
+ 	<table align="left">
+		<tr>
+			<td>
+				<a id="necesito_nueva_unidad_link" align="center" class="link_aviso" onclick="show_element('necesito_nueva_unidad_code');hide_element('necesito_nueva_unidad_link');">
+					Necesito una nueva unidad
+				</a>
+				<div id="necesito_nueva_unidad_code" style="display:none;">
+					Nueva unidad:
+					<% remote_form_for "nueva_unidad",:url => {:action => "crear_unidad"},:update => "general" do |f| %>
+						<%= f.hidden_field "receta",:value => receta.id.to_s %>
+						<%= f.hidden_field "ingrediente",:value => editar.id.to_s %>
+						<%= f.text_field "nombre" %>
+						<%= f.submit "Crear" %>
+					<% end %>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<a id="necesito_convertir_unidad_link" align="center" class="link_aviso" onclick="show_element('necesito_convertir_unidad_code');hide_element('necesito_convertir_unidad_link');">
+					Necesito convertir una Unidad
+				</a>
+				<div id="necesito_convertir_unidad_code" style="display:none;">
+					Conversion:
+					<% remote_form_for "convertir_unidad",:url => {:action => "convertir_unidad"},:update => "general" do |f| %>
+						<%= f.hidden_field "receta",:value => receta.id.to_s %>
+						<%= f.hidden_field "ingrediente",:value => editar.id.to_s %>
+						<%= f.text_field "cantidad_origen",:value => 1,:size => 3 %>
+						<%= f.select "unidad_origen",unidadesmedida.map {|u| [u.nombre,u.id]} %> de
+						<%= f.select "todos",[[editar.nombre,editar.id],["Cualquier Ingrediente",0]]%>
+						 son 
+						<%= f.text_field "cantidad_destino",:value => 1,:size => 3 %>
+						<%= f.select "unidad_destino",unidadesmedida.map {|u| [u.nombre,u.id]} %>
+						<%= f.submit "Convertir" %>
+					<% end %>
+				</div>
+			</td>
+		</tr>
+
+	</table>
+
+</fieldset>

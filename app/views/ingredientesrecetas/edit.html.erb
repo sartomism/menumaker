@@ -1,0 +1,24 @@
+<h1>Editing ingredientesrectea</h1>
+
+<% form_for(@ingredientesreceta) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :receta %><br />
+    <%= f.text_field :receta %>
+  </p>
+  <p>
+    <%= f.label :ingrediente %><br />
+    <%= f.text_field :ingrediente %>
+  </p>
+  <p>
+    <%= f.label :cantidad %><br />
+    <%= f.text_field :cantidad %>
+  </p>
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @ingredientesreceta %> |
+<%= link_to 'Back', ingredientesrecetas_path %>

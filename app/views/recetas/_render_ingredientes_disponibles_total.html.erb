@@ -1,0 +1,18 @@
+
+
+<fieldset>
+	<div id="ingredientes_disponibles_filtro">
+
+	Nombre: <input id="filtro_nombre">
+	Tipo:		<select id="filtro_tipo">
+					<%= options_for_select [["Todos",0]]+etiquetaings.map {|e| [e.nombre,e.id]} %>
+				</select>
+	
+	</div>
+	
+	<br>
+	<div id="ingredientes_disponibles">
+			<%= render_partial(:partial => "render_ingredientes_disponibles",:locals => {:receta => receta, :ingredientes_excluidos => ingredientes_excluidos,:filtro_nombre => filtro_nombre,:filtro_tipo=>filtro_tipo}) %>
+	</div>
+</fieldset>
+

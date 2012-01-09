@@ -1,0 +1,93 @@
+<fieldset>
+	<legend>Ingredientes Disponibles </legend>
+	
+	<% if ingredientes_excluidos.size == 0%>
+		<table align="center">
+			<td>
+				<span style="color:#F00;font-weight:bold;">
+				<br>
+				Ningun Ingrediente encontrado<br>
+				<br>
+			</td>
+		</table>
+	<% else %>
+		<% remote_form_for("nuevos_ingredientes",:url => {:action => "anadir_ingredientes"},:update => "general") do |f| %>
+			<%= f.hidden_field "receta",:value => receta.id.to_s %>
+			<table>
+				<tr>
+					<th>Ingrediente</th>
+					<th>Cantidad</th>
+					<th>Unidad</th>
+					<th>Uso</th>
+					<th>Acciones</th>
+				</tr>
+					<% for ingrediente in ingredientes_excluidos %>
+						<% unidades = Unidadmedidaingrediente.find(:all,:conditions => "ingrediente = "+ingrediente.id.to_s).map {|i| [Unidadmedida.find(i.unidadmedida).nombre,i.unidadmedida]} %>
+						<tr>
+							<td>
+								<% if unidades.count > 0 %>
+									<%= f.check_box "select_"+ingrediente.id.to_s %>
+								<% else %>
+									<%= f.check_box "select_"+ingrediente.id.to_s,:DISABLED => "DISABLED" %>
+								<% end %>
+								<%= ingrediente.nombre %>
+							</td>
+							<td>
+								<% if unidades.count > 0 %>
+									<%= f.text_field "cantidad_"+ingrediente.id.to_s,:value => 0.to_f,:size => 5,:onchange => "set_on('nuevos_ingredientes_select_"+ingrediente.id.to_s+"');" %>
+								<% else %>
+									<%= f.text_field "cantidad_"+ingrediente.id.to_s,:value => 0.to_f,:size => 5,:onchange => "set_on('nuevos_ingredientes_select_"+ingrediente.id.to_s+"');",:DISABLED => "DISABLED" %>
+								<% end %>
+							</td>
+							<td>
+								<% if unidades.count > 0 %>
+									<%= f.select "unidad_"+ingrediente.id.to_s,unidades %>
+								<% else %>
+									Indefinidas							
+								<% end %>
+							</td>
+							<td>
+								<% uso = uso_ingrediente(ingrediente) %>
+								<% if unidades.count >0 %>
+									<%= uso.to_s %>
+								<% end %>
+							</td>
+							<td>
+								<%= link_to_remote "Editar",:url => {:action => "editar_ingrediente",:receta => receta.id, :ingrediente => ingrediente.id },:update => "general" %>
+								<% if  uso == 0 %>
+									<%= link_to_remote "Borrar",:url => {:action => "borrar_ingrediente",:receta => receta.id, :ingrediente => ingrediente.id },:update => "ingredientes_disponibles" %>
+								<% else %>							
+									<%= link_to_remote "Fusionar",:url => {:action => "fusionar_ingredientes",:receta => receta.id, :mover => ingrediente.id },:update => "general" %>
+								<% end %>						
+							</td>
+						</tr>
+					<% end %>
+				<tr>
+					<td align="center" colspan=6>
+						<%= f.submit "Añadir\n Ingredientes\n Seleccionados" %>
+					</td>
+				</tr>
+					
+			</table>
+		<% end %>
+	<% end %>	
+	
+		<hr>	
+		<table align="center">
+		<tr>
+			<td>
+				<a id="necesito_nuevo_ingrediente_link" align="center" class="link_aviso" onclick="show_element('necesito_nuevo_ingrediente_code');hide_element('necesito_nuevo_ingrediente_link');">
+					Necesito un nuevo Ingrediente
+				</a>
+				<div id="necesito_nuevo_ingrediente_code" style="display:none;">
+					Nuevo Ingrediente:
+					<% remote_form_for "nuevo_ingrediente",:url => {:action => "crear_ingrediente"},:update => "ingredientes_disponibles" do |f| %>
+						<%= f.hidden_field "receta",:value => receta.id.to_s %>
+						<%= f.text_field "nombre" %>
+						<%= f.submit "Crear" %>
+					<% end %>
+				</div>
+			</td>
+	</table>
+
+</fieldset>

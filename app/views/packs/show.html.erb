@@ -1,0 +1,13 @@
+<p>
+  <b>Ingrediente:</b>
+  <%=h @pack.ingrediente %>
+</p>
+
+<p>
+  <b>Cantidad:</b>
+  <%=h @pack.cantidad %>
+</p>
+
+
+<%= link_to 'Edit', edit_pack_path(@pack) %> |
+<%= link_to 'Back', packs_path %>

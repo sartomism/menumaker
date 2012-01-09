@@ -1,0 +1,73 @@
+<script>
+	highline(3);
+</script>
+
+<fieldset>
+	<legend>Tipo de Receta</legend>
+		
+	<% remote_form_for "plato",:url => {:action => "guardar_platos"},:update => "general" do |f| %>
+		<%= f.hidden_field "receta",:value => receta.id.to_s %>
+		<table>
+			<tr>
+				<th>Incluir</th>
+				<th>Tipo de receta</th>
+				<th>Información</th>
+				<th>Acciones</th>
+			</tr>
+			<% for plato in platos do %>
+				<% platorecetas = Platoreceta.find(:all,:conditions => "plato = "+plato.id.to_s+" and receta = "+receta.id.to_s) %>
+				<tr>
+					<td>
+						<% if platorecetas.count == 0 then %>
+							<%= f.check_box "select_"+plato.id.to_s%>
+						<% else %>
+							<%= f.check_box "select_"+plato.id.to_s,:checked => "checked" %>
+						<% end %>
+					</td>
+					<td>
+						<% action_on_click="toggle_readonly('plato_nombre_"+plato.id.to_s+"');" %>
+						<%= f.text_field "nombre_"+plato.id.to_s,:value => plato.nombre.to_s,:readonly => true,:class => "readonly_field",:onclick => action_on_click %>
+					</td>
+					<td>
+						<% cantidad = cantidad_recetas_plato(plato) %>
+						<%= "("+cantidad.to_s+" recetas)" %>
+					</td>
+					<td>
+					<% if cantidad == 0 %>
+						<%= link_to_remote "Borrar",:url => {:action => "borrar_plato",:receta => receta.id, :plato => plato.id },:update => "general" %>
+					<% else %>
+						<%= link_to_remote "Fusionar",:url => {:action => "mover_plato",:receta => receta.id, :plato => plato.id },:update => "general" %>
+					<% end %>
+
+					</td>
+				</tr>
+			<% end %>
+		<tr>
+			<td align="center" colspan=4>
+				<%= f.submit "Guardar\n Tipo de \n Receta" %>
+			</td>
+		</tr>
+
+		</table>
+		
+	<% end %>
+	
+	<hr>
+	<table align="center">
+		<tr>
+			<td>
+				<a id="necesito_nuevo_plato_link" align="center" class="link_aviso" onclick="show_element('necesito_nuevo_plato_code');hide_element('necesito_nuevo_plato_link');">
+					Necesito un nuevo tipo de receta
+				</a>
+				<div id="necesito_nuevo_plato_code" style="display:none;">
+					Nuevo tipo de Receta:
+					<% remote_form_for "nuevo_plato",:url => {:action => "crear_plato"},:update => "general" do |f| %>
+						<%= f.hidden_field "receta",:value => receta.id.to_s %>
+						<%= f.text_field "nombre" %>
+						<%= f.submit "Crear" %>
+					<% end %>
+				</div>
+			</td>
+	</table>
+	
+</fieldset>

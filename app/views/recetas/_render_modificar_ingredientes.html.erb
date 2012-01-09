@@ -1,0 +1,26 @@
+<script>
+	highline(2);
+</script>
+
+<fieldset>
+	<legend>Ingredientes</legend>
+	<table>
+		<tr>
+			<th>Ingredientes Incluidos</th>
+			<th>Ingredientes Disponibles</th>
+		</tr>
+		<tr>
+			<td>
+			  	<div id="ingredientes_incluidos">
+					<%= render_partial(:partial => "render_ingredientes_incluidos",:locals => {:receta => receta, :ingredientes_incluidos => ingredientes_incluidos}) %>
+				</div>
+			</td>
+			<td>
+			  	<div id="ingredientes_disponibles_total">
+					<%= render_partial(:partial => "render_ingredientes_disponibles_total",:locals => {:receta => receta, :ingredientes_excluidos => ingredientes_excluidos,:etiquetaings=>etiquetaings,:filtro_nombre => "",:filtro_tipo => 0}) %>
+				</div>
+			</td>
+		</tr>
+	</table>
+</fieldset>
+
